@@ -4,11 +4,11 @@ import reactor.core.publisher.Mono;
 
 public class LogEx {
 
-    /**
-     * Log event communication between subscriber and publisher
-     */
     public static void main(String[] args) {
         Mono.justOrEmpty("Spring")
+                /**
+                 * Log method prints event communication between subscriber and publisher
+                 */
                 .log()
                 .subscribe(System.out::println);
     }
