@@ -8,12 +8,24 @@ import java.io.IOException;
 public class SubscribeTest {
 
     public static void main(String[] args) throws IOException {
-        /*ReactiveStreams.intStream().subscribe(i -> System.out.println(i));
-        ReactiveStreams.userStream().subscribe(u -> System.out.println(u));*/
-        Flux<Integer> integerFlux = ReactiveStreams.intStream();
+        /*Below two streams run asynchronously*/
+        ReactiveStreams.intFlux().subscribe(i -> System.out.println(i));
+        ReactiveStreams.userFlux().subscribe(u -> System.out.println(u));
+
+        /*A single stream is subscribed twice. They run asynchronously*/
+        Flux<Integer> integerFlux = ReactiveStreams.intFlux();
         integerFlux.subscribe(i-> System.out.println(i));
         integerFlux.subscribe(i-> System.out.println("Another: " + i));
-        System.out.println("Press any key to terminate");
+        Flux<Integer> intFlux = ReactiveStreams.intFlux();
+
+        /*subscribe overloaded methods*/
+        intFlux.subscribe();
+        integerFlux.subscribe(System.out::println);
+        intFlux.subscribe(System.out::println, throwable -> System.out.println(throwable.getMessage()));
+        intFlux.subscribe(System.out::println, throwable -> System.out.println(throwable.getMessage()),
+                () -> System.out.println("Complete"));
+
+        System.out.println("Press Enter key to terminate");
         System.in.read();
     }
 }
