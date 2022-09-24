@@ -12,6 +12,16 @@ public class ReactiveStreams {
         return Flux.range(1,10).delayElements(Duration.ofSeconds(1));
     }
 
+    public static Flux<Integer> intFluxWithError() {
+        return Flux.range(1,10).delayElements(Duration.ofSeconds(1))
+                .map(i -> {
+                    if (i == 5) {
+                        throw new RuntimeException("Flux Exception occurred at " + i);
+                    }
+                    return i;
+                });
+    }
+
     public static Flux<User> userFlux() {
         return Flux.range(1,10).map(i -> new User(i, "User"+i)).delayElements(Duration.ofSeconds(1));
     }
